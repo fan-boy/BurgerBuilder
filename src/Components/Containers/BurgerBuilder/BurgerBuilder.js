@@ -83,7 +83,7 @@ class BurgerBuilder extends Component{
         }).catch(error =>{
             console.log(error);
         });
-     }
+    }
     onOrderCancelHandler = () =>{
         this.setState({orderState: !this.state.orderState});
     }
@@ -111,4 +111,4 @@ class BurgerBuilder extends Component{
     }
 }
 
-export default errorHandler(BurgerBuilder , axios);
+export default errorHandler(BurgerBuilder ,axios);

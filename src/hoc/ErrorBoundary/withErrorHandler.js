@@ -8,13 +8,13 @@ const withErrorBoundary = (WrappedComponent,axios) =>{
             error:null
         }
         componentDidMount(){
-            axios.interceptors.response.use(req =>{
-                this.setState({error : null});
+            
+            axios.interceptors.request.use(req =>{
+                this.setState({error:null});
                 return req;
             });
-            axios.interceptors.response.use(null,error =>{
+            axios.interceptors.response.use(res => res , error =>{
                 this.setState({error : error});
-                return response;
             });
         }
         errorConfirmedHandler = () => {
@@ -26,6 +26,7 @@ const withErrorBoundary = (WrappedComponent,axios) =>{
                 <Auxiliary>
                     <Modal show = {this.state.error } backDropClicked = {this.errorConfirmedHandler}>
                         Something didn't work!
+                        {this.state.error ? this.state.error.message : null}
                     </Modal>
                     <WrappedComponent {...this.props} />
     
@@ -35,3 +36,5 @@ const withErrorBoundary = (WrappedComponent,axios) =>{
         }
     }
 }
+
+export default withErrorBoundary;
