@@ -17,15 +17,17 @@ const INGREDIENT_PRICES = {
 }
 class BurgerBuilder extends Component{
     state = {
-        ingredients:{
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat:0
-        },
+        ingredients:null,
         totalPrice : 20,
         purchasable : false,
         orderState : false
+    }
+
+    componentDidMount (){
+        axios.get('https://burgerbuilder-758b0.firebaseio.com/Ingredients.json')
+        .then(response =>{
+            this.setState({ingredients:response.data})
+        })
     }
 
     updatePurchaseState = (updatedIngredients) =>{
@@ -73,13 +75,13 @@ class BurgerBuilder extends Component{
      }
      onOrderConfirmhandler = () =>{
         this.setState({orderState : !this.state.orderState});
-        alert('Order Placed');
         const order = {
             ingredients : this.state.ingredients,
             price : this.state.totalPrice,
         }
         axios.post('/orders.json',order).then(response =>{
             console.log(response);
+            alert('Order Placed');
         }).catch(error =>{
             console.log(error);
         });
@@ -87,25 +89,38 @@ class BurgerBuilder extends Component{
     onOrderCancelHandler = () =>{
         this.setState({orderState: !this.state.orderState});
     }
+   
 
     render(){
+        let orderSummary = null;
+        
+        let burger = <Spinner/>;
+        if(this.state.ingredients != null){
+         orderSummary = (<OrderSummary ingredients = {this.state.ingredients} totalPrice = {this.state.totalPrice} ordered = {this.onOrderConfirmhandler} cancelled = {this.onOrderCancelHandler}/> 
+                );
+         burger = (
+            <Auxiliary>
+                <div >
+                    <Burger ingredients = {this.state.ingredients}/> 
+                </div>
+                
+                <div>
+                    <BurgerControl 
+                     price = {this.state.totalPrice}
+                     ingredientAdded = {this.addIngredientHandler}
+                     ingredientRemoved = {this.removeIngredientHandler}
+                     orderable = {this.state.purchasable}
+                     purchasing = {this.onOrderHandler}/>
+                </div>
+            </Auxiliary>
+        );
+        }
         return(
             <Auxiliary>
             <Modal show = {this.state.orderState} backDropClicked = {this.onOrderHandler}>
-                 <OrderSummary ingredients = {this.state.ingredients} totalPrice = {this.state.totalPrice} ordered = {this.onOrderConfirmhandler} cancelled = {this.onOrderCancelHandler}/> 
-            </Modal>
-            <div >
-                <Burger ingredients = {this.state.ingredients}/> 
-            </div>
-            
-            <div>
-                <BurgerControl 
-                 price = {this.state.totalPrice}
-                 ingredientAdded = {this.addIngredientHandler}
-                 ingredientRemoved = {this.removeIngredientHandler}
-                 orderable = {this.state.purchasable}
-                 purchasing = {this.onOrderHandler}/>
-            </div>
+                {orderSummary}
+                 </Modal>
+                {burger}
             </Auxiliary>
         );
     }
