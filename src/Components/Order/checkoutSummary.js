@@ -1,21 +1,22 @@
 import React from 'react';
 
 import Burger from '../Burger/Burger';
-import Button from '../UI/Button/Button';
+import buttonclasses from '../UI/Button/Button.css'
 import classes from './checkoutSummary.css'
 
 
 const checkoutSummary = (props) => {
     return(
-        <div className = {classes.checkoutSummary}>
+        <div className = {classes.CheckoutSummary}>
             <h1>
                 We Hope it tastes well!
             </h1>
             <div style = {{width:'300px', height:'300px', margin: 'auto'}}>
                 <Burger ingredients = {props.ingredients}/>
             </div>
-            <Button btnType = "Danger">Cancel </Button>
-            <Button btnType = "Success">Continue</Button>
+            <button className = {buttonclasses.Success} onClick = {props.ordered}>Yes</button>
+            
+            <button className = {buttonclasses.Danger} onClick = {props.cancelled}>No</button>
         </div>
     );
 }

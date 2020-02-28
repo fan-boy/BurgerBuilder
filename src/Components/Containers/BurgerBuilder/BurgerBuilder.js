@@ -75,16 +75,28 @@ class BurgerBuilder extends Component{
      }
      onOrderConfirmhandler = () =>{
         this.setState({orderState : !this.state.orderState});
-        const order = {
-            ingredients : this.state.ingredients,
-            price : this.state.totalPrice,
+        // const order = {
+        //     ingredients : this.state.ingredients,
+        //     price : this.state.totalPrice,
+        // }
+        // axios.post('/orders.json',order).then(response =>{
+        //     console.log(response);
+        //     alert('Order Placed');
+        // }).catch(error =>{
+        //     console.log(error);
+        // });
+        const queryParams = [];
+        for (let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]));
         }
-        axios.post('/orders.json',order).then(response =>{
-            console.log(response);
-            alert('Order Placed');
-        }).catch(error =>{
-            console.log(error);
+        const queryString = queryParams.join('&');
+
+        this.props.history.push({
+            pathname:'/checkout',
+            search: '?'+ queryString
         });
+
+        //this.props.history.replace('/checkout');
     }
     onOrderCancelHandler = () =>{
         this.setState({orderState: !this.state.orderState});
