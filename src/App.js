@@ -13,11 +13,7 @@ class App extends Component {
         <Layout>
           <Switch>
           <Route path ="/" exact component = {BurgerBuilder}/> 
-          <Route path = "/orders"  component = {Orders} />
-<<<<<<< HEAD
-=======
           <Route path = "/orders" component = {Orders} />
->>>>>>> 36ba257fc130c67026c8bc74a365ac80ee37c32e
           </Switch>
         </Layout>
         </BrowserRouter>
