@@ -1,4 +1,4 @@
-.Button {
+.buttonStyle {
     background-color: transparent;
     border: none;
     color: white;
@@ -10,7 +10,7 @@
     font-weight: bold;
 }
 
-.Button:first-of-type {
+.buttonStyle:first-of-type {
     margin-left: 0;
     padding-left: 0;
 }
