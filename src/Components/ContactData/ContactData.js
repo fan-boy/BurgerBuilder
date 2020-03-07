@@ -51,10 +51,9 @@ class ContactData extends Component{
         if(this.props.ingredients){
             const order = {
                 ingredients: this.props.ingredients,
-                price: this.props.price,
+                price: this.props.totalPrice,
                 orderData: formData
             }
-        
        this.setState({purchasing:true});
         axios.post('/orders.json',order).then(response =>{
             this.setState({purchasing:false});
