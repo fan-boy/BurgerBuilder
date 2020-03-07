@@ -4,9 +4,16 @@ import classes from './InputElement.css';
 const InputElement = (props) =>{
     let inputElement = null;
 
+    let cssClasses = [classes.InputType];
+    if(!props.isValid && props.shouldValidate){
+    cssClasses.push(classes.InputTypeRequired);
+    }
+    
+    
+
     switch (props.inputType){
         case('input'):
-            inputElement = <input {...props} className = {classes.InputType} value = {props.value} onChange = {props.changed}    />
+            inputElement = <input {...props} className = {cssClasses.join(" ")} value = {props.value} onChange = {props.changed}    />
             break;
         case('textarea'):
             inputElement = <textarea {...props} className = {classes.InputType} value = {props.value} onChange = {props.changed}/>
