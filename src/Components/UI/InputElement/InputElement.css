@@ -21,6 +21,11 @@
     
     
 }
+.InputTypeRequired{
+    border: 1px solid red;
+    background-color: #fda49a;
+    
+}
 
 .InputType:focus{
     outline: none;
