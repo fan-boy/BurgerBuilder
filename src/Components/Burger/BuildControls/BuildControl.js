@@ -20,7 +20,8 @@ const buildControls = (props) =>(
             <BuildControl key = {x.label}
                 label = {x.label} type = {x.type}
                 added = {() =>props.ingredientAdded(x.type)}
-                removed = {() => props.ingredientRemoved(x.type)}/>        
+                removed = {() => props.ingredientRemoved(x.type)}
+                price = {props.price}/>        
          ))}
         
         <div>
