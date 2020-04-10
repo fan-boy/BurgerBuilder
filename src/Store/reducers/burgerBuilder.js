@@ -1,14 +1,10 @@
-import * as actionTypes from  './actions';
+import * as actionTypes from  '../actions/actionTypes';
 
 const initialState ={
-    ingredients:{
-        salad:0,
-        bacon:0,
-        meat:0,
-        cheese:0
-    },
+    ingredients:null,
     totalPrice : 20,
-    purchase:false
+    purchase:false,
+    error:false
 }
 
 const INGREDIENT_PRICES = {
@@ -48,6 +44,19 @@ const reducer = (state = initialState, action ) =>{
                 purchase: purchasableAfterRemove
 
             };
+        case actionTypes.SET_INGREDIENTS:
+            //let orignalIngredients = state.ingredients;
+            return{
+                ...state,
+                ingredients:{
+                    ...action.ingredients
+                }
+            }
+        case actionTypes.SET_ERROR:
+            return{
+                ...state,
+                error: !state.error
+            }        
         default:
             return state;        
 

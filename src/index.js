@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import {Provider} from 'react-redux';
 import App from './App';
-import {createStore} from 'redux';
+import {createStore,applyMiddleware} from 'redux';
 import registerServiceWorker from './registerServiceWorker';
-import reducer from './Store/reducer';
+import reducer from './Store/reducers/burgerBuilder';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducer);
+const store = createStore(reducer,applyMiddleware(thunk));
 const app = (
     <Provider store = {store}>
         <App />
