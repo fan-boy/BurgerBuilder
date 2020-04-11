@@ -4,9 +4,11 @@ import buttonclasses from '../UI/Button/Button.css'
 import axios from '../../axios-order';
 import Spinner from '../UI/Spinner/Spinner';
 import {withRouter} from 'react-router-dom';
-
+import * as orderActions from '../../Store/actions/order';
+import withErrorHandler from '../../hoc/ErrorBoundary/withErrorHandler';
 
 import classes from './ContactData.css';
+import { connect } from 'react-redux';
 
 
 class ContactData extends Component{
@@ -98,6 +100,7 @@ class ContactData extends Component{
             }
         }
         if(isValidated){
+            this.props.onOrderStart();
             const formData = {};
             for (let formElement in this.state.orderform){
                 formData[formElement] = this.state.orderform[formElement].value;
@@ -108,14 +111,8 @@ class ContactData extends Component{
                     price: this.props.totalPrice,
                     orderData: formData
                 }
-        this.setState({purchasing:true});
-            axios.post('/orders.json',order).then(response =>{
-                this.setState({purchasing:false});
-                this.props.history.push('/');
-            }).catch(error =>{
-                this.setState({purchasing:false});
-                console.log(error);
-            });
+        this.props.onOrderPlace(order);
+            
 
         }else{
             alert("No Ingredients Selected");
@@ -194,7 +191,7 @@ class ContactData extends Component{
                     <button className = {buttonclasses.Success} onClick = {this.onOrderClick}>Order</button>            
             </form>
         );
-        if(this.state.purchasing){
+        if(this.props.loading){
             form = <Spinner />;
         }
 
@@ -211,4 +208,21 @@ class ContactData extends Component{
     }
 
 }
-export default withRouter(ContactData);
+const mapStateToProps = state =>{
+    return{
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.purchasing,
+        initPurchasing: state.order.initPurchase
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onOrderPlace : (orderData) => dispatch (orderActions.placeOrder(orderData)),
+        onOrderStart : () => dispatch(orderActions.setPurchasing())
+    }
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) (withErrorHandler(withRouter(ContactData),axios));
