@@ -14,3 +14,11 @@ export{
     fetchOrders,
     fetchOrdersStart
 }from './order'
+export{
+    auth,
+    authSuccess,
+    authFailed,
+    logout,
+    setRedirectPath,
+    authCheckState
+}from './auth'

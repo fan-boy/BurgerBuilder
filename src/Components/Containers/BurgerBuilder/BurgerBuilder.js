@@ -35,7 +35,12 @@ class BurgerBuilder extends Component{
     
 
     onOrderHandler = () =>{
+        if(this.props.isAuthenticated){
         this.setState({orderState : !this.state.orderState});
+        }else{
+            this.props.setRedirectPath('/checkout');
+            this.props.history.push('/auth');
+        }
      }
      onOrderConfirmhandler = () =>{
         this.props.onInitOrder();
@@ -48,9 +53,8 @@ class BurgerBuilder extends Component{
     onOrderCancelHandler = () =>{
         this.setState({orderState: !this.state.orderState});
     }
-   
 
-    render(){
+     render(){
         let orderSummary = null;
         
         let burger = <Spinner/>;
@@ -69,7 +73,9 @@ class BurgerBuilder extends Component{
                      ingredientAdded = {this.props.onIngredientAdded}
                      ingredientRemoved = {this.props.onIngredientRemoved}
                      orderable = {this.props.purchasable}
-                     purchasing = {this.onOrderHandler}/>
+                     purchasing = {this.onOrderHandler}
+                     isAuthenticated = {this.props.isAuthenticated}
+                     />
                 </div>
             </Auxiliary>
         );
@@ -90,7 +96,8 @@ const mapStateToProps = state =>{
         ings: state.burgerBuilder.ingredients,
         tp: state.burgerBuilder.totalPrice,
         purchasable: state.burgerBuilder.purchase,
-        error : state.burgerBuilder.error
+        error : state.burgerBuilder.error,
+        isAuthenticated: state.auth.isLoggedIn
     }
 }
 
@@ -99,7 +106,8 @@ const mapDispatchToProps = dispatch =>{
         onIngredientAdded : (ingName) => dispatch(actions.addIngredient(ingName)),
         onIngredientRemoved : (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients : () => dispatch(actions.initIngredients()),
-        onInitOrder : () => dispatch(actions.purchaseInit())
+        onInitOrder : () => dispatch(actions.purchaseInit()),
+        setRedirectPath: (path) => dispatch(actions.setRedirectPath(path))
     }
 }
 

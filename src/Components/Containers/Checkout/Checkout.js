@@ -16,7 +16,7 @@ class Checkout extends Component{
         this.props.history.goBack();
     }
     render(){
-        debugger;
+        
        let summary = <Redirect to ='/'/>
         if(this.props.ings){
             let purchaseRedirect = this.props.purchased?<Redirect to='/'/>:null;

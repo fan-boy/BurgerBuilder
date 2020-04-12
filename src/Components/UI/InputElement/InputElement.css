@@ -29,6 +29,6 @@
 
 .InputType:focus{
     outline: none;
-    background-color:#ccc;
+    background-color:rgb(153, 122, 122);
 
 }

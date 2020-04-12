@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from '../../axios-order';
+import auth from '../../Components/Containers/Auth/auth';
 
 export const orderSuccess = (id,orderData) =>{
     return{
@@ -21,9 +22,9 @@ export const setPurchasing = () =>{
         type: actionTypes.SET_PURCHASING
     }
 }
-export const placeOrder = (orderData) =>{
+export const placeOrder = (orderData,authToken) =>{
     return dispatch =>{
-        axios.post('/orders.json',orderData).then(response =>{
+        axios.post('/orders.json?auth=' + authToken,orderData).then(response =>{
             dispatch(orderSuccess(response.data.name,orderData));
         }).catch(error =>{
             dispatch(orderFail(error));
@@ -38,9 +39,9 @@ export const purchaseInit =() =>{
     }
 }
 
-export const fetchOrders = () =>{
+export const fetchOrders = (token) =>{
     return dispatch =>{
-        axios.get('https://burgerbuilder-758b0.firebaseio.com/orders.json').then(
+        axios.get('https://burgerbuilder-758b0.firebaseio.com/orders.json?auth=' + token).then(
             response =>{
                 dispatch(fetchOrdersSuccess(response.data))
             }
