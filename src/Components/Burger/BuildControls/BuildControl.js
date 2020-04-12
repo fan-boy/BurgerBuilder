@@ -28,8 +28,11 @@ const buildControls = (props) =>(
         <p>Price : {props.price}</p>
         </div>
         <div>
-            <button className = {classes.OrderButton} disabled = {!props.orderable} onClick = {props.purchasing}>Order Now</button>
-        </div>
+            
+            <button className = {classes.OrderButton} disabled = {!props.orderable} onClick = {props.purchasing}>{props.isAuthenticated?'Order Now':'Sign Up or Log In'}</button>
+               
+        }   
+            </div>
     </div>
 
 
