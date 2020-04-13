@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, withRouter , Redirect} from 'react-router-dom';
 
 import Layout from './Components/Layout/Layout';
 import BurgerBuilder from './Components/Containers/BurgerBuilder/BurgerBuilder';
@@ -22,9 +22,11 @@ class App extends Component {
           <Switch>
           <Route path ="/" exact component = {BurgerBuilder}/>
           <Route path = "/auth" exact component = {Auth} /> 
-          <Route path = "/checkout" component = {Checkout} />
-          <Route path = "/orders" component = {Orders} />
+          {this.props.isAuthenticated?<Route path = "/checkout" component = {Checkout} />: null}
+          {this.props.isAuthenticated?<Route path = "/orders" component = {Orders} />: null}
+          
           <Route path = "/logout" exact component = {Logout} />
+          <Redirect to = '/'/>
           </Switch>
         </Layout>
         </BrowserRouter>
@@ -34,10 +36,16 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state =>{
+  return{
+    isAuthenticated: state.auth.isLoggedIn
+  }
+}
+
 const mapDispatchToProps = dispatch =>{
   return{
     checkAuthState: () => dispatch(actionTypes.authCheckState())
   }
 }
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

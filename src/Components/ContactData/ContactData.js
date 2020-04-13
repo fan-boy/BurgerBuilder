@@ -36,15 +36,6 @@ class ContactData extends Component{
                 },
             isValid:false
             },
-        email:{
-             elementType: "input" , 
-             elementConfig: { type:"text", placeholder: "Email"},
-             value:null, 
-             validity:{
-                required :false
-                },
-            isValid:false
-            },
         street:{ 
             elementType: "input" , 
             elementConfig: { type:"text", placeholder: "Street"},
@@ -105,6 +96,7 @@ class ContactData extends Component{
             for (let formElement in this.state.orderform){
                 formData[formElement] = this.state.orderform[formElement].value;
             }
+            formData["email"] = this.props.email;
             if(this.props.ingredients){
                 const order = {
                     ingredients: this.props.ingredients,
@@ -214,7 +206,8 @@ const mapStateToProps = state =>{
         price: state.burgerBuilder.totalPrice,
         loading: state.order.purchasing,
         initPurchasing: state.order.initPurchase,
-        token: state.auth.idToken
+        token: state.auth.idToken,
+        email: state.auth.email
     }
 }
 

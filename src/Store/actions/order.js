@@ -39,9 +39,9 @@ export const purchaseInit =() =>{
     }
 }
 
-export const fetchOrders = (token) =>{
+export const fetchOrders = (token,email) =>{
     return dispatch =>{
-        axios.get('https://burgerbuilder-758b0.firebaseio.com/orders.json?auth=' + token).then(
+        axios.get('https://burgerbuilder-758b0.firebaseio.com/orders.json?auth=' + token +'orderBy=email&equalTo='+email).then(
             response =>{
                 dispatch(fetchOrdersSuccess(response.data))
             }
